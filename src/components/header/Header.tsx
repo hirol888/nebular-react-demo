@@ -14,6 +14,7 @@ import {
   changeDirection
 } from '@nebular-react/core';
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AllThemes } from '../../themes/AllThemes';
 import useStyles from './Header.styles';
 
@@ -30,6 +31,7 @@ export function Header({ toggleSidebar }: HeaderProps) {
   ];
   const { classes, cx } = useStyles();
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const handleSelectTheme = (selected: Option) => {
     const { theme } = AllThemes.find((t) => t.name === selected.value);
@@ -44,7 +46,13 @@ export function Header({ toggleSidebar }: HeaderProps) {
     <div className={cx(classes.root)}>
       <div className="header-container">
         <div className="logo-container">
-          <a href="#" className="sidebar-toggle" onClick={toggleSidebar}>
+          <a
+            href="#"
+            className="sidebar-toggle"
+            aria-label="Toggle navigation"
+            title="Toggle navigation"
+            onClick={toggleSidebar}
+          >
             <Icon icon="menu-2-outline" />
           </a>
           <a className="logo" href="#">
@@ -68,8 +76,25 @@ export function Header({ toggleSidebar }: HeaderProps) {
           <Action component="div" className="control-item">
             <Search type="rotate-layout" />
           </Action>
-          <Action className="control-item" icon={<Icon icon="email-outline" />} />
-          <Action className="control-item" icon={<Icon icon="bell-outline" />} />
+          <Action
+            className="control-item"
+            aria-label="Messages"
+            title="Messages"
+            icon={<Icon icon="email-outline" />}
+          />
+          <Action
+            className="control-item"
+            aria-label="Notifications"
+            title="Notifications"
+            icon={<Icon icon="bell-outline" />}
+          />
+          <Action
+            className="control-item"
+            aria-label="Desktop mode"
+            title="Desktop mode"
+            icon={<Icon icon="monitor-outline" />}
+            onClick={() => navigate('/desktop')}
+          />
           <Action className="user-action">
             <User ref={userMenuRef} />
             <ContextMenu triggerRef={userMenuRef}>

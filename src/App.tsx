@@ -2,10 +2,11 @@ import { WindowProvider, DialogProvider, ToastrProvider } from '@nebular-react/c
 import { defaultSvgIconPacks, NebularProvider, SvgFile } from '@nebular-react/styles';
 import React, { useEffect } from 'react';
 import * as ionicons from 'ionicons/icons';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { OneColumnLayout } from './components/layouts/one-column/OneColumnLayout';
+import { DesktopMode } from './pages/components/desktop/DesktopMode';
 import { LightTheme } from './themes/light.theme';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'leaflet/dist/leaflet.css';
 import 'nebular-icons/css/nebular-icons.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './App.css';
@@ -14,7 +15,7 @@ export default function App() {
   const _ionicons = Object.entries<string>(ionicons).map(
     (x: [string, string]): [string, SvgFile] => {
       const name = x[0].replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
-      return [name, { file: `https://unpkg.com/ionicons@7.1.0/dist/ionicons/svg/${name}.svg` }];
+      return [name, { file: `https://unpkg.com/ionicons@8.1.0/dist/ionicons/svg/${name}.svg` }];
     }
   );
 
@@ -33,7 +34,12 @@ export default function App() {
       <WindowProvider>
         <DialogProvider>
           <ToastrProvider limit={50}>
-            <OneColumnLayout />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/desktop" element={<DesktopMode />} />
+                <Route path="*" element={<OneColumnLayout />} />
+              </Routes>
+            </BrowserRouter>
           </ToastrProvider>
         </DialogProvider>
       </WindowProvider>
